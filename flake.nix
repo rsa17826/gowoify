@@ -25,10 +25,10 @@
         packages = {
           # The actual package
           default = pkgs.buildGoModule {
-            pname = "input-manager";
+            pname = "gowoify";
             version = "2";
             src = ./.;
-            vendorHash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+            vendorHash = null;
           };
         };
         devShells = {
