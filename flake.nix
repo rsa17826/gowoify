@@ -26,7 +26,7 @@
             pname = "gowoify";
             version = "2";
             src = ./.;
-            vendorHash = null;
+            vendorHash = "sha256-p4qS9CoZW9TDTVHN4jL1vbiBJ8ghJtrcb6T8EPnIab4=";
           };
         };
         devShells = {
