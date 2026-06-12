@@ -1,8 +1,8 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
+	"io"
 	"os"
 	"strings"
 	"unicode"
@@ -19,19 +19,16 @@ const (
 )
 
 func main() {
-	// Create a scanner that looks at standard input
-	scanner := bufio.NewScanner(os.Stdin)
-
-	// This loop will block and wait for input, running infinitely
-	for scanner.Scan() {
-		input := scanner.Text()
-		fmt.Printf("%s", Owowify(input))
-	}
-
-	// Check if any error occurred during scanning
-	if err := scanner.Err(); err != nil {
+	inputBytes, err := io.ReadAll(os.Stdin)
+	if err != nil {
 		fmt.Fprintln(os.Stderr, "reading standard input:", err)
+		return
 	}
+
+	input := string(inputBytes)
+
+	// Process and print everything with original newlines intact
+	fmt.Print(Owowify(input))
 }
 
 func Owowify(text string) string {
