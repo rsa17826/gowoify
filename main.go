@@ -197,18 +197,21 @@ func subSameCase(inputText, replaceText string) string {
 	return result.String()
 }
 
-// Helper function to safely evaluate a string replacement function over all matches
+// Helper function to safely evaluate a string replacement function over all matches.
+// m.Index and m.Length are rune offsets (not byte offsets), so we convert to []rune
+// first to avoid slicing through multi-byte UTF-8 sequences (e.g. box-drawing chars).
 func replaceAllStringFuncBuf(re *regexp2.Regexp, input string, replacer func(regexp2.Match) string) string {
+	runes := []rune(input)
 	var result strings.Builder
 	lastIndex := 0
 
 	m, err := re.FindStringMatch(input)
 	for err == nil && m != nil {
-		result.WriteString(input[lastIndex:m.Index])
+		result.WriteString(string(runes[lastIndex:m.Index]))
 		result.WriteString(replacer(*m))
 		lastIndex = m.Index + m.Length
 		m, err = re.FindNextMatch(m)
 	}
-	result.WriteString(input[lastIndex:])
+	result.WriteString(string(runes[lastIndex:]))
 	return result.String()
 }
